@@ -1,4 +1,3 @@
-<script>
   $(function() { //only load after page has loaded
 
 
@@ -58,4 +57,3 @@
     })
 
   });
-</script>
