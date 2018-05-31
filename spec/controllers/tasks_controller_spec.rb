@@ -12,10 +12,11 @@ RSpec.describe TasksController, type: :controller do
       expect(response_value.count).to eq(2)
       response_ids = response_value.collect do |task|
         task["id"]
-      end 
+      end
       expect(response_ids).to eq([task1.id, task2.id])
     end
   end
+
   describe "tasks#put" do
     it "shall allow tasks to be marked as done" do
       task = FactoryBot.create(:task, done:false)
@@ -25,4 +26,15 @@ RSpec.describe TasksController, type: :controller do
       expect(task.done).to eq(true)
     end
   end
+
+  describe "tasks#create" do
+    it "shall allow new tasks to be created" do
+      post :create, params: {task: {title: "Fix things"}}
+      expect(response).to have_http_status(:success)
+      response_value = ActiveSupport::JSON.decode(@response.body)
+      expect(response_value['title']).to eq("Fix things")
+      expect(Task.last.title).to eq("Fix things")
+    end
+  end
+
 end
